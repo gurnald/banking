@@ -1,4 +1,5 @@
-﻿using System;
+﻿using banking.Exceptions;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,8 +14,7 @@ internal class Account {
 
     public bool Deposit(decimal Amount) {
         if (Amount <= 0) {
-              Console.WriteLine($"Amount cannot be zero or negative");
-            return false;
+            throw new MustBeGreaterThanZeroException();
         }
         Balance += Amount; // Balance = Balance + Amount;
         return true;
@@ -23,15 +23,14 @@ internal class Account {
     public bool Withdraw(decimal Amount) {
 
         if (Amount <= 0) {
-            Console.WriteLine($"Amount cannot be zero or negative");
-            return false;
+            throw new MustBeGreaterThanZeroException();
         }
 
-            if (Amount > Balance) {
-            Console.WriteLine($"Insufficient Funds!");
-            return false;
-        } 
+        if (Amount > Balance) {
 
+            throw new InsufficientFundsException($"Insufficient Funds!" , Amount , Balance);
+        }
+      
         Balance -= Amount; // balance = Balance - Amount;
         return true;
     
